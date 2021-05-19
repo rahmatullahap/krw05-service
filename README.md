@@ -40,7 +40,7 @@ then run it
 npm start
 ```
 
-open your browser at http://localhost:5000/graphql to explore API service
+open your browser at http://localhost:5000/ to explore API service
 
 ## Development
 
