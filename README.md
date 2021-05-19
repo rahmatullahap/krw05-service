@@ -47,5 +47,6 @@ open your browser at http://localhost:5000/ to explore API service
 to develop this projects you just run this command
 
 ```bash
+npm i
 npm run dev
 ```
