@@ -33,7 +33,8 @@ export function getContextFromAuth(authHeader: string): UserContext {
     ctx = {
       userid: ver['userid'],
       nama: ver['nama'],
-      hakakses: ver['hakakses']
+      hakakses: ver['hakakses'],
+      unitid: ver['unitid']
     };
   } catch (err) {
     logger.error(err);
@@ -90,7 +91,8 @@ export function verifyToken(authHeader) {
     ctx = {
       userid: ver['userid'],
       nama: ver['nama'],
-      hakakses: ver['hakakses']
+      hakakses: ver['hakakses'],
+      unitid: ver['unitid']
     };
   } catch (error) {
     throw error.message;

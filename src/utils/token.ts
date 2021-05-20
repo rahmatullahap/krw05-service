@@ -11,6 +11,7 @@ export interface TokenClaim {
   userid?: string;
   nama?: string;
   hakakses?: HakAkses;
+  unitid?: number;
 }
 
 /**

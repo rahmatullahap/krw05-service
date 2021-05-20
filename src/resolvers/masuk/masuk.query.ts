@@ -1,6 +1,7 @@
 import { where, Sequelize, Op } from 'sequelize';
 import { MasukModel } from '../model';
 import { SearchMasukQueryArgs } from '.';
+import { getContextFromAuth } from '../../middleware/access';
 
 /**
  * Query for get masuks
@@ -8,24 +9,29 @@ import { SearchMasukQueryArgs } from '.';
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function searchMasukQuery(req, res): Promise<any> {
+  const ctx = getContextFromAuth(req.headers.authorization);
   const args = req.body as SearchMasukQueryArgs;
   const data = await MasukModel.findAndCountAll({
     where: {
-      [Op.or]: [
+      [Op.and]: [
         {
           jenismasuk: where(
             Sequelize.fn('LOWER', Sequelize.col('jenismasuk')),
             'LIKE',
             `%${(args?.keyword || '').toLowerCase()}%`
           )
+        },
+        {
+          unitid: {
+            [Op.eq]: ctx.unitid,
+          },
         }
       ]
     },
-    order: [['masukid', 'ASC']],
+    order: [['jenismasuk', 'ASC']],
     limit: args?.limit || 10,
     offset: args?.skip || 0
   });

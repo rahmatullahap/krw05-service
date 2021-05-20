@@ -1,4 +1,4 @@
-import { User, UserModel } from '../model';
+import { HakAkses, User, UserModel } from '../model';
 import { AddUserMutationArgs, UpdateUserMutationArgs } from '.';
 import { createCredential } from '../../middleware/access';
 
@@ -8,17 +8,34 @@ import { createCredential } from '../../middleware/access';
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function addUserMutation(req, res): Promise<any> {
   const args = req.body as AddUserMutationArgs;
+  try {
+    // check if user exists
+    const user = await UserModel.findOne({
+      where: {
+        userid: args.userid
+      }
+    });
+    if (user) {
+      throw Error(`${args.userid} sudah terdaftar`);
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error.message
+    });
+  }
+
   const { salt, hash } = await createCredential(args.password);
   const response = await UserModel.create({
+    userid: args.userid,
     unitid: args.unitid,
     nama: args.nama,
     password: hash,
-    hakakses: args.hakakses,
+    hakakses: args.hakakses || HakAkses.admin,
     salt
   });
 
@@ -27,7 +44,8 @@ export async function addUserMutation(req, res): Promise<any> {
     message: 'success',
     data: {
       unitid: user.unitid,
-      nama: user.nama
+      nama: user.nama,
+      userid: user.userid
     }
   });
 }
@@ -38,7 +56,6 @@ export async function addUserMutation(req, res): Promise<any> {
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function removeUserMutation(req, res): Promise<any> {

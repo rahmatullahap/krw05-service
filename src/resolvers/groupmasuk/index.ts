@@ -1,4 +1,10 @@
 import { Router } from 'express';
+import { middleware } from '../../middleware/access';
+import {
+  addGroupMasukMutation,
+  removeGroupMasukMutation,
+  updateGroupMasukMutation
+} from './groupmasuk.mutation';
 import {
   searchGroupMasukByIdQuery,
   searchGroupMasukQuery
@@ -10,8 +16,16 @@ export interface SearchGroupMasukQueryArgs {
   skip: number;
 }
 
+export interface GroupMasukMutationArgs {
+  groupmasuk: string;
+}
+
 const groupMasukRouter = Router();
+groupMasukRouter.use('/', middleware);
 groupMasukRouter.get('/', searchGroupMasukQuery);
 groupMasukRouter.get('/:id', searchGroupMasukByIdQuery);
+groupMasukRouter.post('/add', addGroupMasukMutation);
+groupMasukRouter.delete('/delete/:id', removeGroupMasukMutation);
+groupMasukRouter.put('/edit/:id', updateGroupMasukMutation);
 
 export default groupMasukRouter;

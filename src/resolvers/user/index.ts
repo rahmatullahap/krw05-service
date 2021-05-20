@@ -15,6 +15,7 @@ export interface SearchUserQueryArgs {
 }
 
 export interface UserMutationArgs {
+  userid: string;
   unitid: number;
   nama: string;
   password: string;

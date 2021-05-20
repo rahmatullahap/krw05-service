@@ -29,16 +29,7 @@ export function defineUserModel(db: Sequelize) {
     },
     {
       timestamps: false,
-      freezeTableName: true,
-      hooks: {
-        async beforeCreate(attributes) {
-          const id = Math.random()
-            .toString(36)
-            .slice(2, 10)
-            .toUpperCase();
-          attributes.set('userid', id);
-        }
-      }
+      freezeTableName: true
     }
   );
 }

@@ -21,6 +21,7 @@ export function decodeToken(token: string): UserContext {
   return {
     userid: payload.userid,
     nama: payload.nama,
-    hakakses: payload.hakakses
+    hakakses: payload.hakakses,
+    unitid: payload.unitid
   };
 }

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { middleware } from '../../middleware/access';
 import {
   searchTransaksiByIdQuery,
   searchTransaksiQuery
@@ -11,6 +12,7 @@ export interface SearchTransaksiQueryArgs {
 }
 
 const transaksiRouter = Router();
+transaksiRouter.use('/', middleware);
 transaksiRouter.get('/', searchTransaksiQuery);
 transaksiRouter.get('/:id', searchTransaksiByIdQuery);
 

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { middleware } from '../../middleware/access';
 import { searchKeluarByIdQuery, searchKeluarQuery } from './keluar.query';
 
 export interface SearchKeluarQueryArgs {
@@ -8,6 +9,7 @@ export interface SearchKeluarQueryArgs {
 }
 
 const keluarRouter = Router();
+keluarRouter.use('/', middleware);
 keluarRouter.get('/', searchKeluarQuery);
 keluarRouter.get('/:id', searchKeluarByIdQuery);
 

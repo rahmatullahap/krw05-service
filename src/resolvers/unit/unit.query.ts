@@ -8,7 +8,6 @@ import { SearchUnitQueryArgs } from '.';
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function searchUnitQuery(req, res): Promise<any> {

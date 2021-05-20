@@ -11,4 +11,5 @@ export interface UserContext {
   userid: string;
   nama: string;
   hakakses: HakAkses;
+  unitid: number;
 }

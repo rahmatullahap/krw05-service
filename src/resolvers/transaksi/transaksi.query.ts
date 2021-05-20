@@ -8,7 +8,6 @@ import { SearchTransaksiQueryArgs } from '.';
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function searchTransaksiQuery(req, res): Promise<any> {

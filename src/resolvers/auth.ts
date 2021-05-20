@@ -47,13 +47,13 @@ authRouter.post('/login', async function(req, res) {
       let password = args.password;
       const response = await UserModel.findOne({
         where: {
-          nama: args.username
+          userid: args.username
         }
       });
 
       userResponse = response?.toJSON() as User;
 
-      passwordVerify = userResponse?.password === args.password;
+      passwordVerify = userResponse?.password === password;
       if (userResponse?.salt) {
         passwordVerify = await verifiyPassword(
           args.password,
@@ -73,7 +73,8 @@ authRouter.post('/login', async function(req, res) {
         {
           userid: userResponse.userid,
           nama: userResponse.nama,
-          hakakses: userResponse.hakakses
+          hakakses: userResponse.hakakses,
+          unitid: userResponse.unitid
         },
         app.secret
       );

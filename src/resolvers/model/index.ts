@@ -17,8 +17,8 @@ export function setupModels(db: Sequelize): void {
   defineTransaksiModel(db);
   defineMasukModel(db);
   defineKeluarModel(db);
-  defineGroupKeluarModel(db);
   defineGroupMasukModel(db);
+  defineGroupKeluarModel(db);
 }
 
 export * from './user';

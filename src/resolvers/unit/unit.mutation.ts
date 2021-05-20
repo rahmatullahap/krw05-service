@@ -7,7 +7,6 @@ import { AddUnitMutationArgs, UpdateUnitMutationArgs } from '.';
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function addUnitMutation(req, res): Promise<any> {
@@ -29,7 +28,6 @@ export async function addUnitMutation(req, res): Promise<any> {
  * @export
  * @param {any} _
  * @param {any} args
- * @param {any} ctx current context
  * @returns
  */
 export async function removeUnitMutation(req, res): Promise<any> {
