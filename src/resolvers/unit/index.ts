@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { middleware } from '../../middleware/access';
 import {
   addUnitMutation,
   removeUnitMutation,
@@ -21,6 +22,7 @@ export interface AddUnitMutationArgs extends UnitMutationArgs {}
 export interface UpdateUnitMutationArgs extends UnitMutationArgs {}
 
 const unitRouter = Router();
+unitRouter.use('/', middleware);
 unitRouter.get('/', searchUnitQuery);
 unitRouter.get('/:id', searchUnitByIdQuery);
 unitRouter.post('/add', addUnitMutation);

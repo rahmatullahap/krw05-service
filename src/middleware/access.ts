@@ -3,6 +3,8 @@ import { UserContext } from '../authentication/user-context';
 import { config } from '../config';
 import bcrypt from 'bcrypt';
 import { createNodeLogger } from '../connectors/logger.node';
+import { nextTick } from 'process';
+import { HakAkses } from 'src/resolvers/model';
 
 const { app, log } = config;
 
@@ -39,6 +41,67 @@ export function getContextFromAuth(authHeader: string): UserContext {
     throw err;
   }
   return ctx;
+}
+
+export function middleware(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    verifyToken(authHeader);
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    });
+  }
+  next();
+}
+
+export function middlewareAdministrator(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    const ctx = getContextFromAuth(authHeader);
+    if (ctx.hakakses !== HakAkses.administrator) {
+      throw 'You are not admin';
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    });
+  }
+  next();
+}
+
+/**
+ * get context from authorization
+ */
+export function verifyToken(authHeader) {
+  if (!authHeader) {
+    throw 'authorization header not found!';
+  }
+  const user_token = authHeader.replace(/Bearer/gim, '').trim();
+  if (!user_token) {
+    throw 'token not found';
+  }
+
+  let ctx: UserContext = null;
+
+  try {
+    const ver = jwt.verify(user_token, app.secret);
+    ctx = {
+      userid: ver['userid'],
+      nama: ver['nama'],
+      hakakses: ver['hakakses']
+    };
+  } catch (error) {
+    throw error.message;
+  }
+
+  if (!ctx) {
+    throw 'unauthorized';
+  }
+
+  return true;
 }
 
 /**
