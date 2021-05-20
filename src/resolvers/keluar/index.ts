@@ -1,5 +1,10 @@
 import { Router } from 'express';
 import { middleware } from '../../middleware/access';
+import {
+  addKeluarMutation,
+  removeKeluarMutation,
+  updateKeluarMutation
+} from './keluar.mutation';
 import { searchKeluarByIdQuery, searchKeluarQuery } from './keluar.query';
 
 export interface SearchKeluarQueryArgs {
@@ -8,9 +13,18 @@ export interface SearchKeluarQueryArgs {
   skip: number;
 }
 
+export interface KeluarMutationArgs {
+  jeniskeluar: string;
+  groupkeluar: number;
+  unitid?: number;
+}
+
 const keluarRouter = Router();
 keluarRouter.use('/', middleware);
 keluarRouter.get('/', searchKeluarQuery);
 keluarRouter.get('/:id', searchKeluarByIdQuery);
+keluarRouter.post('/add', addKeluarMutation);
+keluarRouter.delete('/delete/:id', removeKeluarMutation);
+keluarRouter.put('/edit/:id', updateKeluarMutation);
 
 export default keluarRouter;

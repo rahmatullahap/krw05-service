@@ -11,7 +11,7 @@ import { getContextFromAuth } from '../../middleware/access';
  * @param {any} ctx current context
  * @returns
  */
-export async function addGroupMasukMutation(req, res): Promise<any> {
+export async function addGroupMasukMutation(req, res) {
   const ctx = getContextFromAuth(req.headers.authorization);
   const args = req.body as GroupMasukMutationArgs;
   const response = await GroupMasukModel.create({
@@ -38,7 +38,7 @@ export async function addGroupMasukMutation(req, res): Promise<any> {
  * @param {any} ctx current context
  * @returns
  */
-export async function removeGroupMasukMutation(req, res): Promise<any> {
+export async function removeGroupMasukMutation(req, res) {
   const id = req.params.id;
   try {
     // check if groupMasuk exists
@@ -80,7 +80,7 @@ export async function removeGroupMasukMutation(req, res): Promise<any> {
  * @param {GroupMasukMutationGroupMasukArgs} args
  * @returns {Promise<any>}
  */
-export async function updateGroupMasukMutation(req, res): Promise<any> {
+export async function updateGroupMasukMutation(req, res) {
   const args = req.body as GroupMasukMutationArgs;
   const id = req.params.id;
   try {

@@ -10,7 +10,7 @@ import { createCredential } from '../../middleware/access';
  * @param {any} args
  * @returns
  */
-export async function addUserMutation(req, res): Promise<any> {
+export async function addUserMutation(req, res) {
   const args = req.body as AddUserMutationArgs;
   try {
     // check if user exists
@@ -58,7 +58,7 @@ export async function addUserMutation(req, res): Promise<any> {
  * @param {any} args
  * @returns
  */
-export async function removeUserMutation(req, res): Promise<any> {
+export async function removeUserMutation(req, res) {
   const id = req.params.id;
   try {
     // check if user exists
@@ -100,7 +100,7 @@ export async function removeUserMutation(req, res): Promise<any> {
  * @param {UserMutationUpdateUserArgs} args
  * @returns {Promise<any>}
  */
-export async function updateUserMutation(req, res): Promise<any> {
+export async function updateUserMutation(req, res) {
   const args = req.body as UpdateUserMutationArgs;
   const id = req.params.id;
   try {

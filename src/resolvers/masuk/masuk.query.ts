@@ -11,7 +11,7 @@ import { getContextFromAuth } from '../../middleware/access';
  * @param {any} args
  * @returns
  */
-export async function searchMasukQuery(req, res): Promise<any> {
+export async function searchMasukQuery(req, res) {
   const ctx = getContextFromAuth(req.headers.authorization);
   const args = req.body as SearchMasukQueryArgs;
   const data = await MasukModel.findAndCountAll({
@@ -47,7 +47,7 @@ export async function searchMasukQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchMasukByIdQuery(req, res): Promise<any> {
+export async function searchMasukByIdQuery(req, res) {
   const id = req.params.id;
   try {
 

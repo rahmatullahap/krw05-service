@@ -10,7 +10,7 @@ import { SearchUserQueryArgs } from '.';
  * @param {any} args
  * @returns
  */
-export async function searchUserQuery(req, res): Promise<any> {
+export async function searchUserQuery(req, res) {
   const args = req.body as SearchUserQueryArgs;
   const data = await UserModel.findAndCountAll({
     where: {
@@ -40,7 +40,7 @@ export async function searchUserQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchUserByIdQuery(req, res): Promise<any> {
+export async function searchUserByIdQuery(req, res) {
   const id = req.params.id;
   try {
 

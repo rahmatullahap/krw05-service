@@ -9,7 +9,7 @@ import { AddUnitMutationArgs, UpdateUnitMutationArgs } from '.';
  * @param {any} args
  * @returns
  */
-export async function addUnitMutation(req, res): Promise<any> {
+export async function addUnitMutation(req, res) {
   const args = req.body as AddUnitMutationArgs;
   const response = await UnitModel.create({
     namaunit: args.namaunit,
@@ -30,7 +30,7 @@ export async function addUnitMutation(req, res): Promise<any> {
  * @param {any} args
  * @returns
  */
-export async function removeUnitMutation(req, res): Promise<any> {
+export async function removeUnitMutation(req, res) {
   const id = req.params.id;
   try {
     // check if unit exists
@@ -72,7 +72,7 @@ export async function removeUnitMutation(req, res): Promise<any> {
  * @param {UnitMutationUpdateUnitArgs} args
  * @returns {Promise<any>}
  */
-export async function updateUnitMutation(req, res): Promise<any> {
+export async function updateUnitMutation(req, res) {
   const args = req.body as UpdateUnitMutationArgs;
   const id = req.params.id;
   try {

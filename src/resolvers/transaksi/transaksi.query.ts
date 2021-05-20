@@ -10,7 +10,7 @@ import { SearchTransaksiQueryArgs } from '.';
  * @param {any} args
  * @returns
  */
-export async function searchTransaksiQuery(req, res): Promise<any> {
+export async function searchTransaksiQuery(req, res) {
   const args = req.body as SearchTransaksiQueryArgs;
   const data = await TransaksiModel.findAndCountAll({
     where: {
@@ -18,6 +18,13 @@ export async function searchTransaksiQuery(req, res): Promise<any> {
         {
           jenis: where(
             Sequelize.fn('LOWER', Sequelize.col('jenis')),
+            'LIKE',
+            `%${(args?.keyword || '').toLowerCase()}%`
+          )
+        },
+        {
+          uraian: where(
+            Sequelize.fn('LOWER', Sequelize.col('uraian')),
             'LIKE',
             `%${(args?.keyword || '').toLowerCase()}%`
           )
@@ -40,10 +47,9 @@ export async function searchTransaksiQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchTransaksiByIdQuery(req, res): Promise<any> {
+export async function searchTransaksiByIdQuery(req, res) {
   const id = req.params.id;
   try {
-
     const transaksi = await TransaksiModel.findOne({
       where: {
         transaksiid: id
@@ -63,4 +69,96 @@ export async function searchTransaksiByIdQuery(req, res): Promise<any> {
       message: error.message
     });
   }
+}
+
+export async function listPengeluaranQuery(req, res) {
+  const args = req.body as SearchTransaksiQueryArgs;
+  const data = await TransaksiModel.findAndCountAll({
+    where: {
+      [Op.and]: [
+        {
+          [Op.or]: [
+            {
+              jenis: where(
+                Sequelize.fn('LOWER', Sequelize.col('jenis')),
+                'LIKE',
+                `%${(args?.keyword || '').toLowerCase()}%`
+              )
+            },
+            {
+              uraian: where(
+                Sequelize.fn('LOWER', Sequelize.col('uraian')),
+                'LIKE',
+                `%${(args?.keyword || '').toLowerCase()}%`
+              )
+            }
+          ]
+        },
+        {
+          sign: {
+            [Op.eq]: '-'
+          }
+        }
+      ]
+    },
+    order: [['tanggal', 'DESC']],
+    limit: args?.limit || 10,
+    offset: args?.skip || 0
+  });
+
+  const ret = {
+    results: data?.rows?.map((r) => r.toJSON()),
+    count: data?.count
+  };
+
+  res.json({
+    message: 'success',
+    data: ret
+  });
+}
+
+export async function listPemasukanQuery(req, res) {
+  const args = req.body as SearchTransaksiQueryArgs;
+  const data = await TransaksiModel.findAndCountAll({
+    where: {
+      [Op.and]: [
+        {
+          [Op.or]: [
+            {
+              jenis: where(
+                Sequelize.fn('LOWER', Sequelize.col('jenis')),
+                'LIKE',
+                `%${(args?.keyword || '').toLowerCase()}%`
+              )
+            },
+            {
+              uraian: where(
+                Sequelize.fn('LOWER', Sequelize.col('uraian')),
+                'LIKE',
+                `%${(args?.keyword || '').toLowerCase()}%`
+              )
+            }
+          ]
+        },
+        {
+          sign: {
+            [Op.eq]: '+'
+          }
+        }
+      ]
+    },
+    order: [['tanggal', 'DESC']],
+    limit: args?.limit || 10,
+    offset: args?.skip || 0
+  });
+
+  const ret = {
+    results: data?.rows?.map((r) => r.toJSON()),
+    count: data?.count
+  };
+
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }

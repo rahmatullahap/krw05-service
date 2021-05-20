@@ -11,7 +11,7 @@ import { getContextFromAuth } from '../../middleware/access';
  * @param {any} ctx current context
  * @returns
  */
-export async function addGroupKeluarMutation(req, res): Promise<any> {
+export async function addGroupKeluarMutation(req, res) {
   const ctx = getContextFromAuth(req.headers.authorization);
   const args = req.body as GroupKeluarMutationArgs;
 
@@ -39,7 +39,7 @@ export async function addGroupKeluarMutation(req, res): Promise<any> {
  * @param {any} ctx current context
  * @returns
  */
-export async function removeGroupKeluarMutation(req, res): Promise<any> {
+export async function removeGroupKeluarMutation(req, res) {
   const id = req.params.id;
   try {
     // check if groupKeluar exists
@@ -81,7 +81,7 @@ export async function removeGroupKeluarMutation(req, res): Promise<any> {
  * @param {GroupKeluarMutationGroupKeluarArgs} args
  * @returns {Promise<any>}
  */
-export async function updateGroupKeluarMutation(req, res): Promise<any> {
+export async function updateGroupKeluarMutation(req, res) {
   const args = req.body as GroupKeluarMutationArgs;
   const id = req.params.id;
   try {

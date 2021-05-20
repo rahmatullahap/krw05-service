@@ -11,7 +11,7 @@ import { SearchGroupKeluarQueryArgs } from '.';
  * @param {any} ctx current context
  * @returns
  */
-export async function searchGroupKeluarQuery(req, res): Promise<any> {
+export async function searchGroupKeluarQuery(req, res) {
   const args = req.body as SearchGroupKeluarQueryArgs;
   const data = await GroupKeluarModel.findAndCountAll({
     where: {
@@ -41,7 +41,7 @@ export async function searchGroupKeluarQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchGroupKeluarByIdQuery(req, res): Promise<any> {
+export async function searchGroupKeluarByIdQuery(req, res) {
   const id = req.params.id;
   try {
     const groupkeluar = await GroupKeluarModel.findOne({

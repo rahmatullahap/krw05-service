@@ -10,7 +10,7 @@ import { SearchUnitQueryArgs } from '.';
  * @param {any} args
  * @returns
  */
-export async function searchUnitQuery(req, res): Promise<any> {
+export async function searchUnitQuery(req, res) {
   const args = req.body as SearchUnitQueryArgs;
   const data = await UnitModel.findAndCountAll({
     where: {
@@ -40,7 +40,7 @@ export async function searchUnitQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchUnitByIdQuery(req, res): Promise<any> {
+export async function searchUnitByIdQuery(req, res) {
   const id = req.params.id;
   try {
     const unit = await UnitModel.findOne({

@@ -11,7 +11,7 @@ import { SearchGroupMasukQueryArgs } from '.';
  * @param {any} ctx current context
  * @returns
  */
-export async function searchGroupMasukQuery(req, res): Promise<any> {
+export async function searchGroupMasukQuery(req, res) {
   const args = req.body as SearchGroupMasukQueryArgs;
   const data = await GroupMasukModel.findAndCountAll({
     where: {
@@ -41,7 +41,7 @@ export async function searchGroupMasukQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchGroupMasukByIdQuery(req, res): Promise<any> {
+export async function searchGroupMasukByIdQuery(req, res) {
   const id = req.params.id;
   try {
     const groupmasuk = await GroupMasukModel.findOne({

@@ -11,7 +11,7 @@ import { SearchKeluarQueryArgs } from '.';
  * @param {any} ctx current context
  * @returns
  */
-export async function searchKeluarQuery(req, res): Promise<any> {
+export async function searchKeluarQuery(req, res) {
   const args = req.body as SearchKeluarQueryArgs;
   const data = await KeluarModel.findAndCountAll({
     where: {
@@ -41,7 +41,7 @@ export async function searchKeluarQuery(req, res): Promise<any> {
   });
 }
 
-export async function searchKeluarByIdQuery(req, res): Promise<any> {
+export async function searchKeluarByIdQuery(req, res) {
   const id = req.params.id;
   try {
 
