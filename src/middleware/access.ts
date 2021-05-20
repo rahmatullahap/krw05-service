@@ -3,8 +3,7 @@ import { UserContext } from '../authentication/user-context';
 import { config } from '../config';
 import bcrypt from 'bcrypt';
 import { createNodeLogger } from '../connectors/logger.node';
-import { nextTick } from 'process';
-import { HakAkses } from 'src/resolvers/model';
+import { HakAkses } from '../resolvers/model';
 
 const { app, log } = config;
 

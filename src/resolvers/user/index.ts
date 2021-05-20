@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { middlewareAdministrator } from 'src/middleware/access';
+import { middlewareAdministrator } from '../../middleware/access';
 import { HakAkses } from '../model';
 import {
   addUserMutation,
