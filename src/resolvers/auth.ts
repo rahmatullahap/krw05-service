@@ -85,18 +85,16 @@ authRouter.post('/login', async function(req, res) {
         }
       });
     } else {
-      res.json({
-        message: 'failed',
-        error: 'Wrong username or password',
-        data: []
+      res.status(400).json({
+        status: 400,
+        message: 'Wrong username or password'
       });
     }
   } catch (error) {
     let message = error?.message || error;
-    res.json({
-      message: 'failed',
-      error: message,
-      data: []
+    res.status(400).json({
+      status: 400,
+      message: message
     });
   }
 });
