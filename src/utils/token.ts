@@ -1,4 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
+import { HakAkses } from '../resolvers/model';
 
 /**
  * token information
@@ -7,7 +8,9 @@ import { sign, verify } from 'jsonwebtoken';
  * @interface TokenClaim
  */
 export interface TokenClaim {
-  account_id?: string;
+  userid?: string;
+  nama?: string;
+  hakakses?: HakAkses;
 }
 
 /**

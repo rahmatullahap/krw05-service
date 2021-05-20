@@ -1,52 +1,25 @@
 import { Router } from 'express';
-import * as jwt from 'jsonwebtoken';
-import { UserContext } from '../authentication/user-context';
+import { getContextFromAuth, verifiyPassword } from '../middleware/access';
 import { config } from '../config';
-import bcrypt from 'bcrypt';
 import { createToken } from '../utils';
-import { createNodeLogger } from '../connectors/logger.node';
+import { User, UserModel } from './model';
 
-const { app, log } = config;
+const { app } = config;
 const authRouter = Router();
 
-const logger = createNodeLogger(log.level);
-
-/**
- * get user token from http request
- */
-function getContextFromAuth(authHeader: string): UserContext {
-  if (!authHeader) {
-    throw new Error('authorization header not found!');
-  }
-  const user_token = authHeader.replace(/Bearer/gim, '').trim();
-  if (!user_token) {
-    throw new Error('token not found!');
-  }
-
-  let ctx: UserContext = null;
-
-  try {
-    const ver = jwt.verify(user_token, app.providerSecret);
-    ctx = {
-      userid: ver['userid'],
-      nama: ver['nama'],
-      hakakses: ver['hakakses']
-    };
-  } catch (err) {
-    logger.error(err);
-    throw err;
-  }
-  return ctx;
+export interface LoginArgs {
+  username: string;
+  password: string;
 }
 
-authRouter.get('/auth', async function(req, res) {
+authRouter.get('/whoami', async function(req, res) {
   try {
     const userContext = getContextFromAuth(req.headers.authorization);
     if (!userContext) {
       throw 'Unauthorized';
     }
 
-    res.json('Hello ' + userContext.nama);
+    res.json('Your name is ' + userContext.nama);
   } catch (error) {
     res.status(401).json({
       message: error?.message || error
@@ -66,20 +39,43 @@ authRouter.get('/ping', async function(req, res) {
 
 authRouter.post('/login', async function(req, res) {
   try {
-    let same = false;
-    if (req.body && req.body.username === 'admin') {
-      same = await bcrypt.compare(
-        req.body.password,
-        '$2b$12$2HIqHI41bbE/vBkRHqqOPOlj39bLn/H7rPzrIQFcPfJqsSW/T2FOK'
-      );
+    let userResponse: User = null;
+    let passwordVerify = false;
+    const args = req.body as LoginArgs;
+
+    try {
+      let password = args.password;
+      const response = await UserModel.findOne({
+        where: {
+          nama: args.username
+        }
+      });
+
+      userResponse = response?.toJSON() as User;
+
+      passwordVerify = userResponse?.password === args.password;
+      if (userResponse?.salt) {
+        passwordVerify = await verifiyPassword(
+          args.password,
+          userResponse?.password
+        );
+      }
+    } catch (error) {
+      res.status(400).json({
+        status: 400,
+        message: error.message
+      });
     }
+
     // generate token if password true
-    if (same) {
+    if (passwordVerify) {
       const token = createToken(
         {
-          account_id: '1'
+          userid: userResponse.userid,
+          nama: userResponse.nama,
+          hakakses: userResponse.hakakses
         },
-        app.providerSecret
+        app.secret
       );
       res.json({
         message: 'success',
@@ -90,7 +86,7 @@ authRouter.post('/login', async function(req, res) {
     } else {
       res.json({
         message: 'failed',
-        error: 'Unauthorized',
+        error: 'Wrong username or password',
         data: []
       });
     }

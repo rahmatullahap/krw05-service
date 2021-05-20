@@ -21,7 +21,19 @@ export function defineMasukModel(db: Sequelize) {
       jenismasuk: DataTypes.STRING,
       unitid: DataTypes.INTEGER
     },
-    { timestamps: false, freezeTableName: true }
+    {
+      timestamps: false,
+      freezeTableName: true,
+      hooks: {
+        async beforeCreate(attributes) {
+          const id = Math.random()
+            .toString(36)
+            .slice(2, 10)
+            .toUpperCase();
+          attributes.set('masukid', id);
+        }
+      }
+    }
   );
 }
 

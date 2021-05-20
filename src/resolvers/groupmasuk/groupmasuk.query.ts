@@ -35,7 +35,10 @@ export async function searchGroupMasukQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchGroupMasukByIdQuery(req, res): Promise<any> {
@@ -50,7 +53,10 @@ export async function searchGroupMasukByIdQuery(req, res): Promise<any> {
       throw Error(`groupmasuk with id ${id} not found`);
     }
 
-    res.json(groupmasuk);
+    res.json({
+      message: 'success',
+      data: groupmasuk
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

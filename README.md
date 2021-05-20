@@ -23,7 +23,7 @@ if those requirement mets, create file `.apirc` and add configuration based on y
   database = <your app database>
 
 [app]
-  providerSecret = your-provider-secret
+  secret = your-secret
 
 ```
 

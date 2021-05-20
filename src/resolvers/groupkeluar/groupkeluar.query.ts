@@ -35,7 +35,10 @@ export async function searchGroupKeluarQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchGroupKeluarByIdQuery(req, res): Promise<any> {
@@ -50,7 +53,10 @@ export async function searchGroupKeluarByIdQuery(req, res): Promise<any> {
       throw Error(`groupkeluar with id ${id} not found`);
     }
 
-    res.json(groupkeluar);
+    res.json({
+      message: 'success',
+      data: groupkeluar
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

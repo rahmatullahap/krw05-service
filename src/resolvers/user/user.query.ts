@@ -35,7 +35,10 @@ export async function searchUserQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchUserByIdQuery(req, res): Promise<any> {
@@ -51,7 +54,10 @@ export async function searchUserByIdQuery(req, res): Promise<any> {
       throw Error(`user with id ${id} not found`);
     }
 
-    res.json(user);
+    res.json({
+      message: 'success',
+      data: user
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

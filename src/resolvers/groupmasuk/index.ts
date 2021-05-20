@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { searchGroupMasukByIdQuery, searchGroupMasukQuery } from './groupmasuk.query';
+import {
+  searchGroupMasukByIdQuery,
+  searchGroupMasukQuery
+} from './groupmasuk.query';
 
 export interface SearchGroupMasukQueryArgs {
   keyword: string;

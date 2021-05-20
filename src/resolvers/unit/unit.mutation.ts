@@ -16,8 +16,11 @@ export async function addUnitMutation(req, res): Promise<any> {
     namaunit: args.namaunit,
     hirarki: args.hirarki
   });
-  const unit = response?.toJSON();
-  res.json(unit as Unit);
+  const unit = response?.toJSON() as Unit;
+  res.json({
+    message: 'success',
+    data: unit
+  });
 }
 
 /**
@@ -52,7 +55,10 @@ export async function removeUnitMutation(req, res): Promise<any> {
       throw Error(`unit with id ${id} remove failed`);
     }
 
-    res.json(unit);
+    res.json({
+      message: 'success',
+      data: unit
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,
@@ -92,7 +98,10 @@ export async function updateUnitMutation(req, res): Promise<any> {
     response = await response.save();
     const result = response?.toJSON() as Unit;
 
-    res.json(result);
+    res.json({
+      message: 'success',
+      data: result
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

@@ -16,7 +16,7 @@ export interface Config {
   };
   app: {
     timezone: string;
-    providerSecret: string;
+    secret: string;
   };
   mysql: {
     host: string;
@@ -40,7 +40,7 @@ export const configDefault: Config = {
   },
   app: {
     timezone: '+07:00',
-    providerSecret: 'provider-secret'
+    secret: 'my-secret'
   },
   mysql: {
     host: 'localhost',

@@ -20,13 +20,26 @@ export function defineUserModel(db: Sequelize) {
       unitid: DataTypes.INTEGER,
       nama: DataTypes.STRING,
       password: DataTypes.STRING,
+      salt: DataTypes.STRING,
       hakakses: {
         type: DataTypes.ENUM,
         values: [HakAkses.admin.toString(), HakAkses.administrator.toString()],
         defaultValue: HakAkses.admin.toString()
       }
     },
-    { timestamps: false, freezeTableName: true }
+    {
+      timestamps: false,
+      freezeTableName: true,
+      hooks: {
+        async beforeCreate(attributes) {
+          const id = Math.random()
+            .toString(36)
+            .slice(2, 10)
+            .toUpperCase();
+          attributes.set('userid', id);
+        }
+      }
+    }
   );
 }
 
@@ -47,4 +60,5 @@ export interface User {
   nama: string;
   password: string;
   hakakses: HakAkses;
+  salt: string;
 }

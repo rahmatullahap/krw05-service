@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { searchGroupKeluarByIdQuery, searchGroupKeluarQuery } from './keluar.query';
+import {
+  searchGroupKeluarByIdQuery,
+  searchGroupKeluarQuery
+} from './groupkeluar.query';
 
 export interface SearchGroupKeluarQueryArgs {
   keyword: string;

@@ -35,7 +35,10 @@ export async function searchTransaksiQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchTransaksiByIdQuery(req, res): Promise<any> {
@@ -51,7 +54,10 @@ export async function searchTransaksiByIdQuery(req, res): Promise<any> {
       throw Error(`transaksi with id ${id} not found`);
     }
 
-    res.json(transaksi);
+    res.json({
+      message: 'success',
+      data: transaksi
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

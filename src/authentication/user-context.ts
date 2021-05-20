@@ -8,7 +8,7 @@ import { HakAkses } from '../resolvers/model';
  * @interface UserContext
  */
 export interface UserContext {
-  userid: string; // account username
+  userid: string;
   nama: string;
   hakakses: HakAkses;
 }

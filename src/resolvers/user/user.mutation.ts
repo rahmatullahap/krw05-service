@@ -1,5 +1,6 @@
 import { User, UserModel } from '../model';
 import { AddUserMutationArgs, UpdateUserMutationArgs } from '.';
+import { createCredential } from '../../middleware/access';
 
 /**
  * Mutation for create user class
@@ -12,14 +13,23 @@ import { AddUserMutationArgs, UpdateUserMutationArgs } from '.';
  */
 export async function addUserMutation(req, res): Promise<any> {
   const args = req.body as AddUserMutationArgs;
+  const { salt, hash } = await createCredential(args.password);
   const response = await UserModel.create({
     unitid: args.unitid,
     nama: args.nama,
-    password: args.password,
-    hakakses: args.hakakses
+    password: hash,
+    hakakses: args.hakakses,
+    salt
   });
-  const user = response?.toJSON();
-  res.json(user as User);
+
+  const user = response?.toJSON() as User;
+  res.json({
+    message: 'success',
+    data: {
+      unitid: user.unitid,
+      nama: user.nama
+    }
+  });
 }
 
 /**
@@ -54,7 +64,10 @@ export async function removeUserMutation(req, res): Promise<any> {
       throw Error(`user with id ${id} remove failed`);
     }
 
-    res.json(user);
+    res.json({
+      message: 'success',
+      data: user
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,
@@ -100,7 +113,10 @@ export async function updateUserMutation(req, res): Promise<any> {
     response = await response.save();
     const result = response?.toJSON() as User;
 
-    res.json(result);
+    res.json({
+      message: 'success',
+      data: result
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

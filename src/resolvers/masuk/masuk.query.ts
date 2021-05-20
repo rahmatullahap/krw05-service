@@ -35,7 +35,10 @@ export async function searchMasukQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchMasukByIdQuery(req, res): Promise<any> {
@@ -51,7 +54,10 @@ export async function searchMasukByIdQuery(req, res): Promise<any> {
       throw Error(`masuk with id ${id} not found`);
     }
 
-    res.json(masuk);
+    res.json({
+      message: 'success',
+      data: masuk
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

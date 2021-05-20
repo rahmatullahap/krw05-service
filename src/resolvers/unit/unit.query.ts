@@ -35,13 +35,15 @@ export async function searchUnitQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchUnitByIdQuery(req, res): Promise<any> {
   const id = req.params.id;
   try {
-
     const unit = await UnitModel.findOne({
       where: {
         unitid: id
@@ -51,7 +53,10 @@ export async function searchUnitByIdQuery(req, res): Promise<any> {
       throw Error(`unit with id ${id} not found`);
     }
 
-    res.json(unit);
+    res.json({
+      message: 'success',
+      data: unit
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,

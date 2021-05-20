@@ -11,7 +11,7 @@ const { app } = config;
  * @returns {UserContext} token payload as user context
  */
 export function decodeToken(token: string): UserContext {
-  const payload: any = verify(token, app.providerSecret);
+  const payload: any = verify(token, app.secret);
   if (!payload) {
     throw new Error('Invalid token');
   }

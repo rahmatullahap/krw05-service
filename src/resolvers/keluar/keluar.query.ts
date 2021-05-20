@@ -35,7 +35,10 @@ export async function searchKeluarQuery(req, res): Promise<any> {
     count: data?.count
   };
 
-  res.json(ret);
+  res.json({
+    message: 'success',
+    data: ret
+  });
 }
 
 export async function searchKeluarByIdQuery(req, res): Promise<any> {
@@ -51,7 +54,10 @@ export async function searchKeluarByIdQuery(req, res): Promise<any> {
       throw Error(`keluar with id ${id} not found`);
     }
 
-    res.json(keluar);
+    res.json({
+      message: 'success',
+      data: keluar
+    });
   } catch (error) {
     res.status(400).json({
       status: 400,
