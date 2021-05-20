@@ -11,6 +11,7 @@ export interface SearchMasukQueryArgs {
   keyword: string;
   limit: number;
   skip: number;
+  list: boolean;
 }
 
 export interface MasukMutationArgs {

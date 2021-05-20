@@ -26,8 +26,8 @@ export async function searchMasukQuery(req, res) {
         },
         {
           unitid: {
-            [Op.eq]: ctx.unitid,
-          },
+            [Op.eq]: ctx.unitid
+          }
         }
       ]
     },
@@ -35,6 +35,13 @@ export async function searchMasukQuery(req, res) {
     limit: args?.limit || 10,
     offset: args?.skip || 0
   });
+
+  if (args.list) {
+    res.json({
+      message: 'success',
+      data: data?.rows?.map((r) => r.toJSON())
+    });
+  }
 
   const ret = {
     results: data?.rows?.map((r) => r.toJSON()),
@@ -50,7 +57,6 @@ export async function searchMasukQuery(req, res) {
 export async function searchMasukByIdQuery(req, res) {
   const id = req.params.id;
   try {
-
     const masuk = await MasukModel.findOne({
       where: {
         masukid: id

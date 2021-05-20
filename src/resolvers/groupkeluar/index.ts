@@ -14,6 +14,7 @@ export interface SearchGroupKeluarQueryArgs {
   keyword: string;
   limit: number;
   skip: number;
+  list: boolean;
 }
 
 export interface GroupKeluarMutationArgs {

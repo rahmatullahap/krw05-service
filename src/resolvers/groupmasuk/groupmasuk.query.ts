@@ -30,6 +30,13 @@ export async function searchGroupMasukQuery(req, res) {
     offset: args?.skip || 0
   });
 
+  if (args.list) {
+    res.json({
+      message: 'success',
+      data: data?.rows?.map((r) => r.toJSON())
+    });
+  }
+
   const ret = {
     results: data?.rows?.map((r) => r.toJSON()),
     count: data?.count

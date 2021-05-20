@@ -14,6 +14,7 @@ export interface SearchGroupMasukQueryArgs {
   keyword: string;
   limit: number;
   skip: number;
+  list: boolean;
 }
 
 export interface GroupMasukMutationArgs {

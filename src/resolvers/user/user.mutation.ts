@@ -1,6 +1,10 @@
 import { HakAkses, User, UserModel } from '../model';
-import { AddUserMutationArgs, UpdateUserMutationArgs } from '.';
-import { createCredential } from '../../middleware/access';
+import {
+  AddUserMutationArgs,
+  UpdateUserMutationArgs,
+  UserInfoMutationArgs
+} from '.';
+import { createCredential, getContextFromAuth } from '../../middleware/access';
 
 /**
  * Mutation for create user class
@@ -121,10 +125,57 @@ export async function updateUserMutation(req, res) {
       response.set('nama', args.nama);
     }
     if (args.password) {
-      response.set('password', args.password);
+      const { salt, hash } = await createCredential(args.password);
+      response.set('password', hash);
+      response.set('salt', salt);
     }
     if (args.hakakses) {
       response.set('hakakses', args.hakakses);
+    }
+
+    response = await response.save();
+    const result = response?.toJSON() as User;
+
+    res.json({
+      message: 'success',
+      data: result
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error.message
+    });
+  }
+}
+
+/**
+ * channge info current user
+ * @export
+ * @param {*} _
+ * @param {UserMutationUpdateUserArgs} args
+ * @returns {Promise<any>}
+ */
+export async function changInfoUserMutation(req, res) {
+  const args = req.body as UserInfoMutationArgs;
+  const ctx = getContextFromAuth(req.headers.authorization);
+  try {
+    let response = await UserModel.findOne({
+      where: {
+        userid: ctx.userid
+      }
+    });
+
+    if (!response) {
+      throw Error(`User with id ${ctx.userid} not found`);
+    }
+
+    if (args.nama) {
+      response.set('nama', args.nama);
+    }
+    if (args.password) {
+      const { salt, hash } = await createCredential(args.password);
+      response.set('password', hash);
+      response.set('salt', salt);
     }
 
     response = await response.save();

@@ -11,6 +11,7 @@ export interface SearchKeluarQueryArgs {
   keyword: string;
   limit: number;
   skip: number;
+  list: boolean;
 }
 
 export interface KeluarMutationArgs {

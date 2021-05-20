@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { middlewareAdministrator } from '../../middleware/access';
+import { middleware, middlewareAdministrator } from '../../middleware/access';
 import { HakAkses } from '../model';
 import {
   addUserMutation,
+  changInfoUserMutation,
   removeUserMutation,
   updateUserMutation
 } from './user.mutation';
@@ -22,10 +23,17 @@ export interface UserMutationArgs {
   hakakses: HakAkses;
 }
 
+export interface UserInfoMutationArgs {
+  nama: string;
+  password: string;
+}
+
 export interface AddUserMutationArgs extends UserMutationArgs {}
 export interface UpdateUserMutationArgs extends UserMutationArgs {}
 
 const userRouter = Router();
+userRouter.put('/update', middleware);
+userRouter.put('/update', changInfoUserMutation);
 userRouter.get('/', middlewareAdministrator);
 userRouter.get('/', searchUserQuery);
 userRouter.get('/:id', searchUserByIdQuery);
