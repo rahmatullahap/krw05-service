@@ -20,7 +20,7 @@ jobs:
     - name: Create env file
       uses: DamianReeves/write-file-action
       with:
-        path: .apirc
+        path: ${{ env.home}}/.apirc
         contents: |
           echo "Hello World!"
           echo "Kucing"
