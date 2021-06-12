@@ -18,19 +18,28 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: Create env file
-      uses: DamianReeves/write-file-action@master
-      with:
-        path: .env
-        contents: |
-          api_app__providerSecret: ${{ secrets.API_APP__PROVIDERSECRET }}
-          api_mysql__database: ${{ secrets.API_MYSQL__DATABASE }}
-          api_mysql__host: ${{ secrets.API_MYSQL__HOST }}
-          api_mysql__password: ${{ secrets.API_MYSQL__PASSWORD }}
-          api_mysql__username: ${{ secrets.API_MYSQL__USERNAME }}
-          api_telegram__adminChatId: ${{ secrets.API_TELEGRAM__ADMINCHATID }}
-          api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
-          api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
-        write-mode: append
+      run: |
+        MY_STRING=$(cat << EOF
+        [httpServer]
+          port = 3322
+          allowedOrigins[] = '*'
+
+        [mysql]
+          host = 'localhost'
+          port = 3306
+          username = 'root'
+          password = 'admin'
+          database = 'kawaluyaan_yaa'
+
+        [app]
+          providerSecret = 'yaaalamanah'
+        EOF
+        )
+        MY_STRING="${MY_STRING//'%'/'%25'}"
+        MY_STRING="${MY_STRING//$'\n'/'%0A'}"
+        MY_STRING="${MY_STRING//$'\r'/'%0D'}"
+        echo "::set-output name=content::$MY_STRING" > .apirc
+      id: my_string
 
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
