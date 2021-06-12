@@ -51,4 +51,4 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script: | 
           cd /home/apps/service/dist/
-          ls -l
+          pm2 start index.js --name "kwrw05"
