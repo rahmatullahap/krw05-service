@@ -17,30 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Create env file
-      run: |
-        MY_STRING=$(cat << EOF
-        [httpServer]
-          port = 3322
-          allowedOrigins[] = '*'
-
-        [mysql]
-          host = 'localhost'
-          port = 3306
-          username = 'root'
-          password = 'admin'
-          database = 'kawaluyaan_yaa'
-
-        [app]
-          providerSecret = 'yaaalamanah'
-        EOF
-        )
-        MY_STRING="${MY_STRING//'%'/'%25'}"
-        MY_STRING="${MY_STRING//$'\n'/'%0A'}"
-        MY_STRING="${MY_STRING//$'\r'/'%0D'}"
-        echo "::set-output name=content::$MY_STRING" > .apirc
-      id: my_string
-
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
       env:
@@ -61,6 +37,8 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script: | 
           cd /home/apps/service/
+          cp /home/apps/secret/.apirc /home/apps/service/.apirc
           npm i
           npm run build
+          pm2 delete kwrw05
           pm2 start dist/index.js --name "kwrw05"
