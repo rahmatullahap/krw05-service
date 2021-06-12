@@ -32,6 +32,11 @@ export interface Config {
     key?: string;
     cert?: string;
   };
+  telegram: {
+    token: string;
+    adminChatId: string;
+    appUrl: string;
+  };
 }
 
 export const configDefault: Config = {
@@ -50,11 +55,16 @@ export const configDefault: Config = {
     password: null
   },
   httpServer: {
-    port: 5000,
+    port: 3000,
     secure: false,
     allowedOrigins: ['*'],
     key: 'server.key',
     cert: 'server.crt'
+  },
+  telegram: {
+    token: '',
+    adminChatId: '',
+    appUrl: ''
   }
 };
 

@@ -25,6 +25,11 @@ if those requirement mets, create file `.apirc` and add configuration based on y
 [app]
   secret = your-secret
 
+[telegram]
+  token = your-bot-token
+  adminChatId = your-admin-chat-id
+  appUrl = app-url
+
 ```
 
 install packages and build this project
