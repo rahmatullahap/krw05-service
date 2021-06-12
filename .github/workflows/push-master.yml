@@ -17,8 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Build and deploy
-      env:
+    - name: Create env file
+      uses: SpicyPizza/create-envfile@v1
+      with:
         api_app__providerSecret: ${{ secrets.API_APP__PROVIDERSECRET }}
         api_mysql__database: ${{ secrets.API_MYSQL__DATABASE }}
         api_mysql__host: ${{ secrets.API_MYSQL__HOST }}
@@ -27,9 +28,8 @@ jobs:
         api_telegram__adminChatId: ${{ secrets.API_TELEGRAM__ADMINCHATID }}
         api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
         api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
-      run: |
-        npm install
-        npm run build
+        directory: .
+        file_name: .env
 
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
@@ -50,5 +50,7 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: | 
-          cd /home/apps/service/dist/
-          pm2 start index.js --name "kwrw05"
+          cd /home/apps/service/
+          npm i
+          npm run build
+          pm2 start dist/index.js --name "kwrw05"
