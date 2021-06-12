@@ -20,11 +20,11 @@ jobs:
     - name: Create env file
       uses: DamianReeves/write-file-action@master
       with:
-        path: ${{ env.home}}/.apirc
+        path: .apirc
         contents: |
           echo "Hello World!"
           echo "Kucing"
-        write-mode: overwrite
+        write-mode: append
 
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
