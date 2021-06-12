@@ -20,10 +20,16 @@ jobs:
     - name: Create env file
       uses: DamianReeves/write-file-action@master
       with:
-        path: .apirc
+        path: .env
         contents: |
-          echo "Hello World!"
-          echo "Kucing"
+          api_app__providerSecret: ${{ secrets.API_APP__PROVIDERSECRET }}
+          api_mysql__database: ${{ secrets.API_MYSQL__DATABASE }}
+          api_mysql__host: ${{ secrets.API_MYSQL__HOST }}
+          api_mysql__password: ${{ secrets.API_MYSQL__PASSWORD }}
+          api_mysql__username: ${{ secrets.API_MYSQL__USERNAME }}
+          api_telegram__adminChatId: ${{ secrets.API_TELEGRAM__ADMINCHATID }}
+          api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
+          api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
         write-mode: append
 
     - name: Copy repository contents via scp
