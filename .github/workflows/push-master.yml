@@ -20,14 +20,14 @@ jobs:
     - name: Create env file
       uses: SpicyPizza/create-envfile@v1
       with:
-        api_app__providerSecret: ${{ secrets.API_APP__PROVIDERSECRET }}
-        api_mysql__database: ${{ secrets.API_MYSQL__DATABASE }}
-        api_mysql__host: ${{ secrets.API_MYSQL__HOST }}
-        api_mysql__password: ${{ secrets.API_MYSQL__PASSWORD }}
-        api_mysql__username: ${{ secrets.API_MYSQL__USERNAME }}
-        api_telegram__adminChatId: ${{ secrets.API_TELEGRAM__ADMINCHATID }}
-        api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
-        api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
+        envkey_api_app__providerSecret: ${{ secrets.API_APP__PROVIDERSECRET }}
+        envkey_api_mysql__database: ${{ secrets.API_MYSQL__DATABASE }}
+        envkey_api_mysql__host: ${{ secrets.API_MYSQL__HOST }}
+        envkey_api_mysql__password: ${{ secrets.API_MYSQL__PASSWORD }}
+        envkey_api_mysql__username: ${{ secrets.API_MYSQL__USERNAME }}
+        envkey_api_telegram__adminChatId: ${{ secrets.API_TELEGRAM__ADMINCHATID }}
+        envkey_api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
+        envkey_api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
         directory: .
         file_name: .env
 
