@@ -28,7 +28,6 @@ jobs:
         api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
         api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
       run: |
-        npm ci
         npm install
         npm run build
 
@@ -50,4 +49,4 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: ls
+        script: ls -l
