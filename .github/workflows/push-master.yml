@@ -15,48 +15,39 @@ jobs:
         node-version: [ 12.x ]
 
     steps:
-      - uses: actions/checkout@v1
+    - uses: actions/checkout@v1
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.ORG_AWS_ADMIN_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.ORG_AWS_ADMIN_SECRET_KEY }}
-          aws-region: ap-northeast-1
-
-      - name: Setup env
+    - name: Build and deploy
         env:
-          TEST_MONGO_DB_CONNECTION: ${{ secrets.ORG_MONGODB_TEST }}
-          MONGO_DB_CONNECTION: ${{ secrets.ORG_MONGODB_STG }}
-          API_STG_ARN: ${{ secrets.ORG_AWS_API_STG_ARN }}
-        run: |
-          echo "UPBOND_ACCOUNT_AUTH=https://api.stg.upbond.io/oauth/token/validate" >> .env
-          echo "MONGO_DB_CONNECTION=$MONGO_DB_CONNECTION" >> .env
-          echo "TEST_MONGO_DB_CONNECTION=$TEST_MONGO_DB_CONNECTION" >> .env
-          sed -i -e "s~Default: '' #cert~Default: $API_STG_ARN~g" sam-template.yaml
-          
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Build and deploy
-        env:
-          API_STAGE: "Stg"
-          API_URL: ".stg.upbond.io"
+          api_app__providerSecret: ${{ secrets.API_APP__PROVIDERSECRET }}
+          api_mysql__database: ${{ secrets.API_MYSQL__DATABASE }}
+          api_mysql__host: ${{ secrets.API_MYSQL__HOST }}
+          api_mysql__password: ${{ secrets.API_MYSQL__PASSWORD }}
+          api_mysql__username: ${{ secrets.API_MYSQL__USERNAME }}
+          api_telegram__adminChatId: ${{ secrets.API_TELEGRAM__ADMINCHATID }}
+          api_telegram__appUrl: ${{ secrets.API_TELEGRAM__APPURL }}
+          api_telegram__token: ${{ secrets.API_TELEGRAM__TOKEN }}
         run: |
           npm ci
-          npm test
           npm install
-          npm run setup
-          
-      - name: Deployed!
-        run: echo App deployed to Lambda
+          npm run build
+
+    - name: Copy repository contents via scp
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        source: "./dist"
+        target: "/home/apps/service"
+
+    - name: Executing remote command
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: ls
